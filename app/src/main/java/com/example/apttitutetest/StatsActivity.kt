@@ -1,5 +1,6 @@
 package com.example.apttitutetest
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_stats.*
@@ -17,5 +18,10 @@ class StatsActivity : AppCompatActivity() {
         allStat.add(StatFeed("Time Taken",R.drawable.group_24))
 
         simpleGridView.adapter = StatAdapter(this,allStat)
+
+        next_btn.setOnClickListener {
+            val intent = Intent(this,CategoryActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
