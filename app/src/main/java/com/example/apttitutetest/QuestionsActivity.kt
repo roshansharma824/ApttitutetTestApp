@@ -105,6 +105,43 @@ class QuestionsActivity : AppCompatActivity() {
         var qanswers: ArrayList<String> = allJoined[0].answers[questionNr]
         setAnswers(qanswers)
 
+        answerListView.setOnItemClickListener { parent, view, position, id ->
+            val clickedID = id.toInt()
+            val correctanswer = allJoined[0].correct_answer[questionNr]
+            val selectedanswer = allJoined[0].answers[questionNr][clickedID]
+            val answerIsCorrect = selectedanswer == correctanswer
+
+            // Check if answer is correct
+            if (answerIsCorrect) {
+                isCorrect++
+            } else {
+                isFailed--
+            }
+
+            if (questionNr == allJoined[0].questions.count() - 1 && questionNum === 10) {
+                quizlayout.visibility = View.GONE
+                donelayout.visibility = View.VISIBLE
+
+                val info: DoneFeed = DoneFeed(
+                    qNumbers = "${allJoined[0].questions.count()}",
+                    qCorrectAnswer = "${isCorrect}",
+                    qNegetive = "${abs(isFailed)}",
+                    qAttemppted = "${10}"
+                )
+                donepop.adapter = DoneAdapter(this, info)
+            } else {
+                questionNum++
+                questionNr++
+            }
+
+            totalnum.text = "$questionNum/${allJoined[0].questions.count()}"
+            mainquestion.text = allJoined[0].questions[questionNr]
+
+            //update answers
+            val newAnswers = allJoined[0].answers[questionNr]
+            setAnswers(newAnswers)
+        }
+
 
     }
 
